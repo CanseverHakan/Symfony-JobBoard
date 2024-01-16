@@ -13,7 +13,7 @@
 
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				<li>
-					<a href="#" class="nav-link px-2 text-white">Accueil</a>
+					<a href="/" class="nav-link px-2 text-white">Accueil</a>
 				</li>
 				<li>
 					<a href="#" class="nav-link px-2 text-white">Offres</a>
@@ -33,6 +33,9 @@
 					</a>
 					<ul class="dropdown-menu text-small">
 						<li>
+							<a class="dropdown-item" href="#">{{ app.user.userIdentifier }}</a>
+						</li>
+						<li>
 							<a class="dropdown-item" href="#">New project...</a>
 						</li>
 						<li>
@@ -43,14 +46,14 @@
 						</li>
 						<li><hr class="dropdown-divider"></li>
 						<li>
-							<a class="dropdown-item" href="#">Sign out</a>
+							<a class="dropdown-item" href="{{ path('app_logout') }}">Sign out</a>
 						</li>
 					</ul>
 				</div>
 			{% else %}
 				<div class="text-end">
-					<a href="#" class="btn btn-outline-light me-2">Login</a>
-					<a href="#" class="btn btn-warning">Sign-up</a>
+					<a href="{{path('app_login')}}" class="btn btn-outline-light me-2">Se connecter</a>
+					<a href="{{path('app_register')}}" class="btn btn-warning">S'inscrire</a>
 				</div>
 			{% endif %}
 		</div>

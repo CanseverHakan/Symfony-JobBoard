@@ -41,6 +41,14 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            //Création du roles de l'utilisateur en fonction de son status(Professionel ou Candidat)
+
+            //dd($form->get('status')->getData());
+            //Accorde le Role Professionnel
+            if($form->get('status')->getData() == 'Professionnel'){
+                $user->setRoles(['ROLE_PRO']);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 
