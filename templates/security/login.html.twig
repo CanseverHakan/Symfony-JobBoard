@@ -9,14 +9,6 @@
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
 
-		{% if app.user %}
-			<div class="mb-3">
-				You are logged in as
-				{{ app.user.userIdentifier }},
-				<a href="{{ path('app_logout') }}">Logout</a>
-			</div>
-		{% endif %}
-
 		<div class='container'>
 			<h1 class="text-center m-2">CONNEXION</h1>
 			<div class='d-grid justify-content-center bg-primary-subtle border border-primary-subtle rounded-3 m-5 p-5'>

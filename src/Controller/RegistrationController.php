@@ -49,6 +49,11 @@ class RegistrationController extends AbstractController
                 $user->setRoles(['ROLE_PRO']);
             }
 
+            //création du message de création du compte
+            $this->addFlash('succes', 'Votre compte a bien été créé !. Un email de confirmation vous a été envoyé.');
+
+            $this->addFlash('error', 'Attention Email ou Mot de Passe incorrect');
+
             $entityManager->persist($user);
             $entityManager->flush();
 
