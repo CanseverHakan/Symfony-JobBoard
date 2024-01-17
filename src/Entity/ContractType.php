@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ContractTypeRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ContractTypeRepository;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContractTypeRepository::class)]
 class ContractType
 {
@@ -13,20 +16,31 @@ class ContractType
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
+    #[Assert\Length(max: 20, maxMesssage: 'Le nom du mot clé ne peut pas dépasser {{ limit }} caractéres.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
+    public function PrePersist(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->slug = (new Slugify())->slugify($this->name);
     }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
+
 
     public function getId(): ?int
     {

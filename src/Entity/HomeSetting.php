@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\HomeSettingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: HomeSettingRepository::class)]
 class HomeSetting
 {
