@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Services\UploadFilesServices;
 use App\Entity\UserProfil;
 use App\Form\UserProfilType;
@@ -23,11 +24,10 @@ class UserProfilController extends AbstractController
     {
 
 
-        // $userProfil = $this->getUser()->getUserProfil();
-
-        // if($user !== null) {
-        //     return $this->redirectToRoute('app_user_profil_show', ['slug' => $user->getUserProfil()->getSlug()]);
-        // }
+        $user = $this->getUser();
+        if ($user->getUserProfil()) {
+            return $this->redirectToRoute('app_user_profil_show', ['slug' => $user->getUserProfil()->getSlug()]);
+        }
 
 
         $userProfil = new UserProfil;
@@ -53,8 +53,11 @@ class UserProfilController extends AbstractController
 
             $em->persist($userProfil);
             $em->flush();
-        }
 
+            $this->addFlash('success', 'Votre profil a bien été créé !');
+
+            return $this->redirectToRoute('app_user_profil_show', ['slug' => $userProfil->getSlug()]);
+        }
 
 
         return $this->render('user_profil/index.html.twig', [
@@ -66,7 +69,7 @@ class UserProfilController extends AbstractController
     #[Route('/user/profil/{slug}', name: 'app_user_profil_show')]
     public function show(UserProfil $userProfil): Response
     {
-        return $this->redirectToRoute('app_user_profil_show', ['slug' => $userProfil->getSlug()]);
+        return $this->render('user_profil/show.html.twig', ['userProfil' => $userProfil,]);
     }
 
     //Modification du profil
