@@ -213,4 +213,12 @@ class EntrepriseProfil
 
         return $this;
     }
+
+    /**
+     * Get the value of slug
+     */ 
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 }

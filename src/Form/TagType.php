@@ -17,6 +17,7 @@ class TagType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Entré un mot clé',
                     'class' => 'mb-3',
+                    'required' => true,
                 ]
             ])
         ;

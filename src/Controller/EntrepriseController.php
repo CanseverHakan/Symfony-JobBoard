@@ -21,6 +21,10 @@ class EntrepriseController extends AbstractController
 
         $user = $this->getUser();
 
+        if($user->getEntrepriseProfil()){
+            return $this->redirectToRoute('app_entreprise_show', ['slug' => $user->getEntrepriseProfil()->getSlug()]);
+        }
+
         $entrepriseProfil = new EntrepriseProfil;
 
         $form = $this->createForm(EntrepriseProfilType::class, $entrepriseProfil);
@@ -43,6 +47,14 @@ class EntrepriseController extends AbstractController
 
         return $this->render('entreprise/index.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/entreprise/{slug}', name: 'app_entreprise_show')]
+    public function show(EntrepriseProfil $entrepriseProfil): Response
+    {
+        return $this->render('entreprise/show.html.twig', [
+            'entrepriseProfil' => $entrepriseProfil,
         ]);
     }
 }

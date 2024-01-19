@@ -1,0 +1,59 @@
+{% extends 'user_profil/index.html.twig' %}
+
+
+{% block title %}
+	{{ parent() }}
+	- Mon profil
+{% endblock %}
+
+{% block content %}
+
+{% set entreprise= app.user.entrepriseProfil %}
+
+
+
+	<div class="container mt-5">
+		<h1 class="text-center mb-4">
+			Domaine d'activité :
+<span class="badge bg-secondary">{{ entreprise.activityArea }}</span>
+
+		</h1>
+		<div class="card card-text mb-4">
+			<div class="card-body d-flex justify-content-between">
+				<div class="col-md-4">
+					<img src="{{ asset('images/' ~ entreprise.logo) }}" alt="{{ entreprise.slug }}" class="img-fluid rounded shadow-lg">
+				</div>
+				<div class="col-md-4">
+					<h2 class="text-center">
+						{{ entreprise.name }}
+					</h2>
+					<details>
+						<summary>Informations sur la société</summary>
+						{{entreprise.address}}
+						{{entreprise.zipCode}}
+						{{entreprise.city}}
+						{{entreprise.country}}
+					</details>
+					<p>Tel :{{entreprise.phoneNumber}}</p>
+				
+				</div>
+			</div>
+			<hr>
+			<div class="card-body">
+				<b>
+					Qui suis-je ?</b>
+				<p>
+					{{entreprise.description}}
+				</p>
+				<a href="" class="btn btn-warning">
+
+					<i class="bi bi-pencil-square"></i>
+				</a>
+				<a href="" class="btn btn-danger">
+					<i class="bi bi-trash"></i>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>{% endblock %}
