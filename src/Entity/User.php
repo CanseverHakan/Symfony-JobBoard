@@ -42,6 +42,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserProfil $userProfil = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?EntrepriseProfil $entrepriseProfil = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -162,6 +168,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getUserProfil(): ?UserProfil
+    {
+        return $this->userProfil;
+    }
+
+    public function setUserProfil(UserProfil $userProfil): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userProfil->getUser() !== $this) {
+            $userProfil->setUser($this);
+        }
+
+        $this->userProfil = $userProfil;
+
+        return $this;
+    }
+
+    public function getEntrepriseProfil(): ?EntrepriseProfil
+    {
+        return $this->entrepriseProfil;
+    }
+
+    public function setEntrepriseProfil(?EntrepriseProfil $entrepriseProfil): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($entrepriseProfil === null && $this->entrepriseProfil !== null) {
+            $this->entrepriseProfil->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($entrepriseProfil !== null && $entrepriseProfil->getUser() !== $this) {
+            $entrepriseProfil->setUser($this);
+        }
+
+        $this->entrepriseProfil = $entrepriseProfil;
 
         return $this;
     }

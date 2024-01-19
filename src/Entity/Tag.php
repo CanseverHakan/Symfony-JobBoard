@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TagRepository;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
