@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +19,6 @@ class ContractType
     private ?int $id = null;
 
     #[Assert\NotBlank(message: 'Le nom est obligatoire')]
-    #[Assert\Length(max: 20, maxMesssage: 'Le nom du mot clé ne peut pas dépasser {{ limit }} caractéres.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -26,6 +27,14 @@ class ContractType
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'contractType', targetEntity: Offer::class)]
+    private Collection $offers;
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function PrePersist(): void
@@ -79,6 +88,36 @@ class ContractType
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): static
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->setContractType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): static
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getContractType() === $this) {
+                $offer->setContractType(null);
+            }
+        }
 
         return $this;
     }

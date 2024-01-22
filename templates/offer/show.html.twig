@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row">
+			{% include "partial/_sidebar.html.twig" %}
+			<div class="col-10">
+				<h2>Détails de l'offre:
+					{{ offer.title }}</h2>
+
+				<div class="row">
+					<div class="col-sm-3">Titre</div>
+					<div class="col-sm-9">{{ offer.title }}</div>
+
+					<div class="col-sm-3">Ajouté le :</div>
+					<div class="col-sm-9">{{ offer.createdAt|date('Y-m-d H:i:s') }}</div>
+
+					<div class="col-sm-3">Courte description</div>
+					<div class="col-sm-9">{{ offer.ShortDescription }}</div>
+
+					<div class="col-sm-3">Détail de l'offre</div>
+					<div class="col-sm-9">{{ offer.content }}</div>
+
+					<div class="col-sm-3">Salaire</div>
+					<div class="col-sm-9">{{ offer.salary }}</div>
+
+					<div class="col-sm-3">Localisation</div>
+					<div class="col-sm-9">{{ offer.location }}</div>
+
+					<div class="col-sm-3">Contrat</div>
+					<div class="col-sm-9">{{ offer.contractType.name }}</div>
+
+					<div class="col-sm-3">Mot clé</div>
+					<div class="col-sm-9">
+					</div>
+
+
+					<div class="col-sm-9">
+						<a href="{{ path('app_offer', {'slug': offer.slug}) }}" class="btn btn-warning">
+							<i class="bi bi-pencil-square"></i>
+							Retour
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

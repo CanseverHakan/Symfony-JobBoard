@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EntrepriseProfilRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -52,6 +54,14 @@ class EntrepriseProfil
 
     #[ORM\OneToOne(inversedBy: 'entrepriseProfil', cascade: ['persist', 'remove'])]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Offer::class)]
+    private Collection $offers;
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -220,5 +230,35 @@ class EntrepriseProfil
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): static
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): static
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getEntreprise() === $this) {
+                $offer->setEntreprise(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row">
+			{% include "partial/_sidebar.html.twig" %}
+			<div class="col-10">
+				<h2>Mes Offres</h2>
+				<button type="submit" class="btn btn-primary">
+					<a href="{{ path('app_offer_create') }}" class="nav-link text-white">New Offre</a>
+				</button>
+				<hr></hr>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Titre</th>
+							<th>Contrat</th>
+							<th>Salaire</th>
+							<th>Localisation</th>
+							<th>Publiée le</th>
+							<th>Nb de candidature</th>
+							<th>Gerer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for offer in offers %}
+							<tr>
+								<td>{{ offer.title}}</td>
+								<td>{{ offer.contractType.name}}</td>
+								<td>{{ offer.salary}}</td>
+								<td>{{ offer.location}}</td>
+								<td>{{ offer.CreatedAt|date('Y-m-d H:i:s')}}</td>
+								<td></td>
+								<td>
+									<a href="{{ path('app_offer_show', {'slug': offer.slug}) }}" class="btn btn-primary">
+										<i class="bi bi-eye"></i>
+									</a>
+									<a href="{{ path('app_offer_edit', {'slug': offer.slug}) }}" class="btn btn-warning">
+										<i class="bi bi-pencil-square"></i>
+									</a>
+									<a href="{{ path('app_offer_delete', {'slug': offer.slug}) }}" class="btn btn-danger">
+										<i class="bi bi-trash"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}
