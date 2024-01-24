@@ -9,7 +9,7 @@
 		<div class="row">
 			{% include "partial/_sidebar.html.twig" %}
 			<div class="col-10">
-				<h2>Détails de l'offre:
+				<h2 class="text-center">Détails de l'offre:
 					{{ offer.title }}</h2>
 
 				<div class="row">
@@ -49,7 +49,54 @@
 						</a>
 					</div>
 				</div>
+				<hr></hr>
+			<h4 class="text-center">
+				Liste des candidatures
+			</h4>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Email</th>
+							<th>Statut</th>
+							<th>Message</th>
+							<th>Date</th>
+							<th>Gérer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for application in applications %}
+							<tr>
+								<td>{{ application.user.userProfil.lastName }}</td>
+
+								<td>{{ application.user.userProfil.firstName }}</td>
+								<td>{{ application.user.email }}</td>
+								<td>
+									{% if application.status =='STATUS_REFUSED' %}
+										<span class="badge bg-danger">Refusé</span>
+									{% elseif application.status =='STATUS_ACCEPTED' %}
+										<span class="badge bg-success">Accepté</span>
+									{% else %}
+										<span class="badge bg-warning">En attente</span>
+									{% endif %}
+
+								</td>
+								<td>{{ application.message|slice(0,50) }}...</td>
+								<td>{{ application.createdAt|ago(locale='fr') }}</td>
+								<td>
+									<a href="" class="btn btn-info">
+										<i class="bi bi-pen-fill"></i>
+									</a>
+								</td>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+
 {% endblock %}

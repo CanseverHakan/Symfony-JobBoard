@@ -95,8 +95,8 @@ class Offer
         $slugify = new Slugify();
         $this->CreatedAt = new \DateTimeImmutable();
         $this->isActive = true;
+
         $this->slug = $slugify->slugify($this->title) . '' . sha1($this->id);
-        
     }
 
     public function getId(): ?int

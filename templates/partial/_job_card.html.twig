@@ -42,11 +42,13 @@
 				</small>
 			</p>
 		</div>
+		{% if app.user %}
 		<div class="card-footer text-center">
 			<a href="{{path('app_offre_emploi_show',{'slug':offer.slug})}}" class="btn btn-primary">
 				<i class="bi bi-eye"></i>
 				Postuler
 			</a>
 		</div>
+		{% endif %}
 	</div>
 </div>

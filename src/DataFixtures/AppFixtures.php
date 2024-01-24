@@ -163,6 +163,7 @@ class AppFixtures extends Fixture
             $offer->setSalary(mt_rand(30000, 100000));
             $offer->setLocation($faker->city());
             $offer->setContractType($faker->randomElement($contractTypes));
+            $offer->setSlug($faker->slug());
             $offer->setEntreprise($faker->randomElement($recruteurs));
             $randomTags = $faker->randomElements($tags, mt_rand(3, 8));
 

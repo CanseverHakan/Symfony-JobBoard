@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 class Application
@@ -27,6 +28,8 @@ class Application
     private ?EntrepriseProfil $Entreprise = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Veuillez saisir un message.')]
+    #[Assert\Length(min: 10, minMessage: 'Votre message doit contenir au moins {{ limit }} caractères.')]
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'applications')]

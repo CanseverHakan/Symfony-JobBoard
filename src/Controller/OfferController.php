@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Offer;
 use App\Form\OfferType;
+use App\Repository\ApplicationRepository;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,13 @@ class OfferController extends AbstractController
     {
 
         $user = $this->getUser();
+
         $company = $user->getEntrepriseProfil();
+
+        if (!$company) {
+            return $this->redirectToRoute('app_entreprise_profil');
+        }
+
         $Offers = $offerRepository->findByEntreprise($company);
 
         return $this->render('offer/index.html.twig', [
@@ -85,8 +92,6 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('app_offer');
         }      
 
-        $offer = $offerRepository->findOneBy(['slug' => $slug]);
-
         $em->remove($offer);
         $em->flush();
 
@@ -144,7 +149,7 @@ class OfferController extends AbstractController
     }
 
     #[Route('/entreprise/offer/{slug}', name: 'app_offer_show')]
-    public function showOffer(string $slug, OfferRepository $offerRepository)
+    public function showOffer(string $slug, OfferRepository $offerRepository, ApplicationRepository $applicationRepository)
     {
         $user = $this->getUser();
         $company = $user->getEntrepriseProfil();
@@ -163,8 +168,45 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('app_offer');
         }
 
+        //Recuperation Candidat
+        $applications = $applicationRepository->findBy(['Offer' => $offer]);
+
+
         return $this->render('offer/show.html.twig', [
             'offer' => $offer,
+            'applications' => $applications
         ]);
     }
+
+    // #[Route('/entreprise/offer/{slug}/candidate/{id}', name: 'app_offer_candidate')]
+    // public function getCandidate(string $id, string $slug, Request $request, EntityManagerInterface $em,  OfferRepository $offerRepository, ApplicationRepository $applicationRepository): Response
+    // {
+    //     $offer = $offerRepository->findOneBy(['slug' => $slug]);
+
+    //     $candidate = $applicationRepository->findOneBy(['id' => $id]);
+
+    //     $form = $this->createForm(ApplyStatusType::class, $candidate);
+
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+
+    //         $em->flush();
+
+    //         notyf()
+    //             ->position('x', 'right')
+    //             ->position('y', 'top')
+    //             ->addSuccess('La candidature a bien été modifiée.');
+
+    //         return $this->redirectToRoute('app_offer_show', ['slug' => $offer->getSlug()]);
+    //     }
+
+    //     return $this->render(
+    //         'entreprise_profil/offer/candidate.html.twig',
+    //         [
+    //             'candidate' => $candidate,
+    //             'statusForm' => $form->createView()
+    //         ]
+    //     );
+    // }
 }
