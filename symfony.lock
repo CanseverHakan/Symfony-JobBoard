@@ -47,6 +47,9 @@
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
         }
     },
+    "knplabs/knp-time-bundle": {
+        "version": "v2.2.0"
+    },
     "php-flasher/flasher-noty-symfony": {
         "version": "v1.15.9"
     },

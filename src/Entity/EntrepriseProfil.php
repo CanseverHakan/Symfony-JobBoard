@@ -58,9 +58,13 @@ class EntrepriseProfil
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Offer::class)]
     private Collection $offers;
 
+    #[ORM\OneToMany(mappedBy: 'Entreprise', targetEntity: Application::class)]
+    private Collection $applications;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -256,6 +260,36 @@ class EntrepriseProfil
             // set the owning side to null (unless already changed)
             if ($offer->getEntreprise() === $this) {
                 $offer->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getEntreprise() === $this) {
+                $application->setEntreprise(null);
             }
         }
 

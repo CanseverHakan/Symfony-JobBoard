@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Liste des offers d'emploi
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row mb-4">
+			<div class="jumbotron">
+				<div class="container text-center mt-5">
+					<h1 class="">
+						Détails de l'offre :
+						{{offers.title}}
+					</h1>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row my-3">
+			<div class="col-9 border rounded">
+				<h2 class="text-center mb-4">{{offers.title}}</h2>
+				<p class="card-text text-secondary">Lieu de travail :{{offers.entreprise.name}}</p>
+				<p class="card-text">Contrat :
+					{{offers.contractType.name}}</p>
+				<p class="card-text">Salaire:
+					{{offers.salary / 100}}
+					€/an brut</p>
+				<p class="card-text">Présentation du poste :
+					<br>{{offers.shortDescription}}</p>
+				<p class="card-text">Description de l'offre:
+					<br>{{offers.content}}</p>
+				<div class="mb-3">
+					<p class="card-text ">Compétences:</p>
+					<ul class="list-inline">
+						{% for tag in offers.tags %}
+							<li class="list-inline-item">
+								<span class="badge bg-primary">{{tag.name}}</span>
+							</li>
+						{% endfor %}
+
+					</ul>
+				</div>
+				<small class="text-muted">
+					<i class="bi bi-clock"></i>
+					Publié
+					{{offers.createdAt|time_diff(locale='fr')}}
+				</small>
+
+				<div>
+					{% if app.user is null %}
+						<a href="{{path('app_login')}}" class="btn btn-info">
+							Connectez-vous pour postuler
+						</a>
+					{% endif %}
+
+				</div>
+			</div>
+
+			{% if app.user.userProfil is defined %}
+				<div class="col-md-3">
+					{{ form_start(form) }}
+					{{ form_row(form.message) }}
+					{{form_end(form)}}
+				</div>
+			{% endif %}
+
+		</div>
+
+
+	</div>
+{% endblock %}

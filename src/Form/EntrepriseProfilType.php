@@ -108,7 +108,7 @@ class EntrepriseProfilType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => EntrepriseProfil::class,
+            'data_class' => null,
         ]);
     }
 }

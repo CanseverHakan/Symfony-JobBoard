@@ -36,6 +36,9 @@
 
 					<div class="col-sm-3">Mot clé</div>
 					<div class="col-sm-9">
+						{% for tag in offer.tags %}
+							<span class="badge bg-primary">{{ tag.name }}</span>
+						{% endfor %}
 					</div>
 
 

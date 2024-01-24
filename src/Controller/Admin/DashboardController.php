@@ -5,12 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\ContractType;
 use App\Entity\User;
 use App\Entity\HomeSetting;
+use App\Entity\Offer;
 use App\Entity\Tag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
@@ -50,5 +50,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Home', 'fas fa-house', HomeSetting::class);
         yield MenuItem::linkToCrud('Contract', 'fas fa-file-contract', ContractType::class);
         yield MenuItem::linkToCrud('Tag', 'fas fa-tag', Tag::class);
+        yield MenuItem::linkToCrud('Offer', 'fas fa-paste', Offer::class);
     }
 }

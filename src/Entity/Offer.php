@@ -80,9 +80,13 @@ class Offer
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'offers')]
     private Collection $tags;
 
+    #[ORM\OneToMany(mappedBy: 'Offer', targetEntity: Application::class)]
+    private Collection $applications;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -240,6 +244,36 @@ class Offer
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getOffer() === $this) {
+                $application->setOffer(null);
+            }
+        }
 
         return $this;
     }
