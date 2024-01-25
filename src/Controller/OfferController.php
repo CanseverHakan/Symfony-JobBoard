@@ -90,7 +90,7 @@ class OfferController extends AbstractController
 
         if ($offer->getEntreprise() !== $company) {
             return $this->redirectToRoute('app_offer');
-        }      
+        }
 
         $em->remove($offer);
         $em->flush();
@@ -177,36 +177,4 @@ class OfferController extends AbstractController
             'applications' => $applications
         ]);
     }
-
-    // #[Route('/entreprise/offer/{slug}/candidate/{id}', name: 'app_offer_candidate')]
-    // public function getCandidate(string $id, string $slug, Request $request, EntityManagerInterface $em,  OfferRepository $offerRepository, ApplicationRepository $applicationRepository): Response
-    // {
-    //     $offer = $offerRepository->findOneBy(['slug' => $slug]);
-
-    //     $candidate = $applicationRepository->findOneBy(['id' => $id]);
-
-    //     $form = $this->createForm(ApplyStatusType::class, $candidate);
-
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-
-    //         $em->flush();
-
-    //         notyf()
-    //             ->position('x', 'right')
-    //             ->position('y', 'top')
-    //             ->addSuccess('La candidature a bien été modifiée.');
-
-    //         return $this->redirectToRoute('app_offer_show', ['slug' => $offer->getSlug()]);
-    //     }
-
-    //     return $this->render(
-    //         'entreprise_profil/offer/candidate.html.twig',
-    //         [
-    //             'candidate' => $candidate,
-    //             'statusForm' => $form->createView()
-    //         ]
-    //     );
-    // }
 }

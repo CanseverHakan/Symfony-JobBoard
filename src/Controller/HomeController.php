@@ -37,7 +37,6 @@ class HomeController extends AbstractController
     #[Route('/offre-emploi', name: 'app_offre_emploi')]
     public function offreEmploi(Request $request ,OfferRepository $offerRepository, TagRepository $tagRepository): Response
     {
-        // $offers = $offerRepository->findBy([], ['id' => 'DESC']);
 
         $tags = $tagRepository->findAll();
 
@@ -100,6 +99,21 @@ class HomeController extends AbstractController
             'offers' => $offer,
             'form' => $form->createView(),
             'existingsApplication' => $existingsApplication
+        ]);
+    }
+
+    #[Route('/show-entreprise', name: 'app_show_entreprise')]
+    public function showEntreprise(Request $request, EntrepriseProfilRepository $entrepriseProfil ): Response
+    {
+
+
+        $page = $request->query->get('page', 1);
+        $entreprise = $entrepriseProfil->findPaginationEntreprise($page, 8);
+
+
+    
+        return $this->render('home/show_entreprise.html.twig', [
+            'entreprise' => $entreprise,
         ]);
     }
 }

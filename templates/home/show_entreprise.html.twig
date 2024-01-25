@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Liste des Entreprise
+{% endblock %}
+
+{% block body %}
+
+	<div class="container text-center mt-5">
+		<h1 >Liste des Entreprises</h1>
+		<div class="col-12">
+			<div class="row">
+				{% for entreprise in entreprise.data %}
+					{% include "partial/_entreprise_card.html.twig" %}
+				{% endfor %}
+			</div>
+			<div class="col-md-3 mx-auto">
+				{% include "partial/pagination_e.html.twig" %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

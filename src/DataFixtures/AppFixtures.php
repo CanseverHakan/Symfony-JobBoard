@@ -129,6 +129,17 @@ class AppFixtures extends Fixture
             $manager->persist($profil);
         }
 
+        $user = new User();
+        $user->setEmail('hakan@hakan.com');
+        $user->setPassword(password_hash('pikachu', PASSWORD_DEFAULT));
+        $user->setStatus('Admin');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setUsername('Hakan Admin');
+        $user->setIsVerified(true);
+        $manager->persist($user);
+        $manager->flush();
+
+
         $entrepriseProfils = $manager->getRepository(User::class)->findByStatus('Professionnel');
 
         foreach ($entrepriseProfils as $entrepriseProfil) {
@@ -145,20 +156,21 @@ class AppFixtures extends Fixture
             $eProfil->setActivityArea($faker->jobTitle());
             $eProfil->setDescription($faker->paragraph(mt_rand(1, 20)));
             $eProfil->setWebsite($faker->url());
-            $eProfil->setLogo('https://api.dicebear.com/7.x/initials/svg?seed=' . $eProfil->getName() );
+            $eProfil->setLogo('https://api.dicebear.com/7.x/initials/svg?seed=' . $eProfil->getName());
             $manager->persist($eProfil);
         }
+
         $manager->flush();
 
         $recruteurs = $manager->getRepository(EntrepriseProfil::class)->findAll();
         $tags = $manager->getRepository(Tag::class)->findAll();
         $contractTypes = $manager->getRepository(ContractType::class)->findAll();
 
-        
-        for($i= 0 ; $i <=100 ; $i++){
+
+        for ($i = 0; $i <= 100; $i++) {
             $offer = new Offer();
             $offer->setTitle($faker->jobTitle());
-            $offer->setShortDescription($faker->word(mt_rand(100,255)));
+            $offer->setShortDescription($faker->word(mt_rand(100, 255)));
             $offer->setContent($faker->paragraph(mt_rand(3, 6)));
             $offer->setSalary(mt_rand(30000, 100000));
             $offer->setLocation($faker->city());
@@ -175,5 +187,4 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
-
 }
