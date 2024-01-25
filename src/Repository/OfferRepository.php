@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Offer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +46,38 @@ class OfferRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findPaginationOffer(int $page , $limit=8):array
+{
+    $limit = abs($limit);
+
+    $result = [];
+
+    $query = $this->getEntityManager()->createQueryBuilder()
+    ->select('o')
+    ->from(Offer::class, 'o')
+    ->where('o.isActive = true')
+    ->orderBy('o.CreatedAt', 'DESC')
+    ->setMaxResults($limit)
+    ->setFirstResult(($page * $limit) - $limit);
+
+    $paginator = new Paginator($query);
+
+    $data = $paginator->getQuery()->getResult();
+
+    if(empty($data)){
+        return $result;
+    }
+
+    $pages = ceil($paginator->count() / $limit);
+
+    $result = [
+        'data' => $data,
+        'pages' => $pages,
+        'page' => $page,
+        'limit' => $limit
+    ];
+
+    return $result;
+}
 }

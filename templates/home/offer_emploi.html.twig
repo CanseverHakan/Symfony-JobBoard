@@ -61,9 +61,12 @@
 		</div>
 		<div class="col-9">
 			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-				{% for offer in offers %}
+				{% for offer in offers.data %}
 					{% include "partial/_job_card.html.twig" %}
 				{% endfor %}
+			</div>
+			<div>
+			{% include "partial/pagination.html.twig" %}
 			</div>
 		</div>
 	</div>

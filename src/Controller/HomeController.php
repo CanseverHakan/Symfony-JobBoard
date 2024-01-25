@@ -22,9 +22,9 @@ class HomeController extends AbstractController
     {
 
         $setting = $homeSettingRepository->findAll();
+
         $offers = $offerRepository->findBy([], ['id' => 'DESC'], 6);
         $entreprises = $entrepriseProfilRepository->findBy([], ['id' => 'DESC'], 4);
-
 
 
         return $this->render('home/index.html.twig', [
@@ -35,12 +35,17 @@ class HomeController extends AbstractController
     }
 
     #[Route('/offre-emploi', name: 'app_offre_emploi')]
-    public function offreEmploi(OfferRepository $offerRepository, TagRepository $tagRepository): Response
+    public function offreEmploi(Request $request ,OfferRepository $offerRepository, TagRepository $tagRepository): Response
     {
-        $offers = $offerRepository->findBy([], ['id' => 'DESC']);
+        // $offers = $offerRepository->findBy([], ['id' => 'DESC']);
 
         $tags = $tagRepository->findAll();
 
+        $page = $request->query->get('page', 1);
+        $offers = $offerRepository->findPaginationOffer($page, 8);
+
+
+    
         return $this->render('home/offer_emploi.html.twig', [
             'offers' => $offers,
             'tag' => $tags
