@@ -32,7 +32,7 @@
 				{% set userProfile = app.user.status == 'Candidat' ? app.user.userProfil : app.user.entrepriseProfil %}
 				<div class="dropdown text-end">
 					<a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="{{ userProfile is not null and userProfile.picture is not null ? asset('images/' ~ userProfile.picture) : asset('images/logo.png') }}" alt="logo" width="40" height="40" class="me-2">
+						<img src="{{ userProfile is not null and userProfile.picture is not null ? asset('images/' ~ userProfile.picture) : asset('images/Logo.png') }}" alt="logo" width="40" height="40" class="me-2">
 					</a>
 
 					<ul class="dropdown-menu text-small">
