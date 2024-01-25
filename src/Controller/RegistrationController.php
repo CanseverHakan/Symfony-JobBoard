@@ -50,9 +50,8 @@ class RegistrationController extends AbstractController
             }
 
             //création du message de création du compte
-            $this->addFlash('succes', 'Votre compte a bien été créé !. Un email de confirmation vous a été envoyé.');
+            $this->addFlash('success', 'Votre compte a bien été créé !. Un email de confirmation vous a été envoyé.');
 
-            $this->addFlash('error', 'Attention Email ou Mot de Passe incorrect');
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -89,7 +88,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');

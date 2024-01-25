@@ -25,6 +25,7 @@ class UserProfilController extends AbstractController
 
 
         $user = $this->getUser();
+        
         if ($user->getUserProfil()) {
             return $this->redirectToRoute('app_user_profil_show', ['slug' => $user->getUserProfil()->getSlug()]);
         }
